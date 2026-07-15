@@ -94,3 +94,12 @@ CREATE POLICY "Users can update own items" ON public.items
 --> statement-breakpoint
 CREATE POLICY "Users can delete own items" ON public.items
   FOR DELETE TO authenticated USING (auth.uid() = user_id OR public.is_admin());
+
+--> statement-breakpoint
+GRANT ALL ON TABLE public.profiles TO postgres, authenticated, anon, service_role;
+--> statement-breakpoint
+GRANT ALL ON TABLE public.items TO postgres, authenticated, anon, service_role;
+--> statement-breakpoint
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO postgres, authenticated, anon, service_role;
+--> statement-breakpoint
+GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO postgres, authenticated, anon, service_role;
