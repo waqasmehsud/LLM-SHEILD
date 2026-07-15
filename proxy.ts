@@ -28,9 +28,29 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  const e2eSession = request.cookies.get("e2e-session")?.value;
+
+  if (process.env.PLAYWRIGHT_TEST === "true" && e2eSession) {
+    if (e2eSession === "admin") {
+      user = {
+        id: "admin-123",
+        email: "admin@example.com",
+        user_metadata: { role: "admin", full_name: "System Admin" },
+      };
+    } else if (e2eSession === "user") {
+      user = {
+        id: "user-123",
+        email: "user@example.com",
+        user_metadata: { role: "user", full_name: "Jane Doe" },
+      };
+    }
+  } else {
+    const {
+      data: { user: supabaseUser },
+    } = await supabase.auth.getUser();
+    user = supabaseUser;
+  }
 
   const path = request.nextUrl.pathname;
 
