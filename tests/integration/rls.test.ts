@@ -5,10 +5,22 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "http://localhost:54
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "your-anon-key-here";
 
 describe("Row Level Security (RLS) Integration Tests", () => {
+  // Bypasses WebSocket constructor check in Node.js test environments
+  const realtimeConfig = { transport: class {} as unknown as typeof globalThis.WebSocket };
+
   // Client configurations
-  const anonClient = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
-  const userClient = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
-  const adminClient = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
+  const anonClient = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: { persistSession: false },
+    realtime: realtimeConfig,
+  });
+  const userClient = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: { persistSession: false },
+    realtime: realtimeConfig,
+  });
+  const adminClient = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: { persistSession: false },
+    realtime: realtimeConfig,
+  });
 
   let dbAvailable = true;
 
