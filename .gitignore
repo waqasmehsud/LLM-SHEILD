@@ -42,7 +42,7 @@ yarn-error.log*
 next-env.d.ts
 
 # supabase local CLI symlinks/junctions
-/supabase/migrations/
+
 
 # playwright test outputs
 /test-results/
