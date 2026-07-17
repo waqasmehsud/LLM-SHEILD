@@ -1,32 +1,63 @@
-# LLM-SHEILD
+# HIRENETIC — Career Telemetry & Calibration Console
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+**Hirenetic** is a next-generation career telemetry dashboard and job alignment calibrator. It parses resume vectors, configures salary/location filters, and matches candidate profile signals against career channels in real-time.
+
+---
+
+## Key Features
+
+*   **Career Calibration Deck (`/dashboard`):** Real-time candidate filtering console with interactive sliders for minimum salary, job types (Remote, Hybrid, In-Office), and job resonance thresholds.
+*   **Job Crawler Telemetry Console (`/dashboard/crawler`):** Live dashboard tracking background scraping runtimes, parsed portal targets (Vercel, Cloudflare, Supabase, Stripe, Linear), and simulated terminal execution logs.
+*   **LLM API Gateway Manager (`/dashboard/llm-api`):** Secure dashboard interface to manage model API keys (OpenAI, Anthropic, Gemini, DeepSeek) and parameters (Temperature, Token Budgets, Default Routing Model).
+*   **Role-Based Access Control (RBAC):** Middleware-enforced Edge gating (`proxy.ts`) that restricts the entire dashboard environment exclusively to authenticated accounts with `role: "admin"` in their user metadata, routing standard users to the welcome page.
+*   **Secure Authentication:** Responsive auth pages (Sign In, Profile Initialization, Recovery Console) tailored to the Hirenetic retro-grid design system.
+
+---
+
+## Tech Stack
+
+*   **Framework:** Next.js (App Router, Turbopack)
+*   **Styling:** CSS & Tailwind CSS (Custom dark theme with `#0e1420` ink backgrounds and `#3ddc97` signal accents)
+*   **Database & Auth:** Supabase PostgreSQL and Supabase Auth
+*   **Edge Router:** Next.js Middleware (`proxy.ts` Edge compilation)
+*   **Testing:** Vitest (Unit/Integration) and Playwright (E2E)
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Environment Configuration
+Create a `.env.local` file in the root of the project with the following variables:
 
+```bash
+NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Run Development Server
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4. Running Tests
+*   To run unit and integration tests:
+    ```bash
+    npm run test
+    ```
+*   To build the production bundle:
+    ```bash
+    npm run build
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployments
+The application compiles dynamically to support Vercel Edge middleware. 
+When creating your project on Vercel, ensure you bind your Supabase environment credentials (`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`) in the project settings.
