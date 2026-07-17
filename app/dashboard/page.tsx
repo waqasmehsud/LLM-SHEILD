@@ -236,7 +236,7 @@ export default function DashboardHome() {
               No active nodes found
             </p>
             <p className="text-[13px] text-slate-500 max-w-sm">
-              Your network database doesn't have any guardrails defined yet.
+              Your network database doesn&apos;t have any guardrails defined yet.
               Create your first security node below.
             </p>
             <button
