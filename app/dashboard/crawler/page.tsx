@@ -32,14 +32,24 @@ export default function CrawlerConsole() {
     let currentStep = 0;
     const interval = setInterval(() => {
       if (currentStep < crawlSteps.length) {
-        setLogs((prev) => [...prev, crawlSteps[currentStep]]);
+        const nextStep = crawlSteps[currentStep];
+        if (typeof nextStep === "string") {
+          setLogs((prev) => [...prev, nextStep]);
+        }
         currentStep++;
       } else {
         clearInterval(interval);
         setIsSweeping(false);
-        setTotalJobs((prev) => prev + 3); // Simulates adding 3 new jobs
+        setTotalJobs((prev) => prev + 3);
       }
     }, 800);
+  };
+
+  const getLogStyle = (logMessage: string | undefined) => {
+    if (!logMessage) return "border-slate-800";
+    if (logMessage.startsWith("[SUCCESS]")) return "border-[#3ddc97] text-[#3ddc97]";
+    if (logMessage.startsWith("[SYSTEM]")) return "border-indigo-500 text-indigo-400";
+    return "border-slate-800";
   };
 
   return (
@@ -129,11 +139,11 @@ export default function CrawlerConsole() {
               </div>
               <div className="border-b border-slate-850 pb-2">
                 <span className="text-slate-500 block">TARGET SCHEMAS:</span>
-                <span className="text-paper">Supabase public.jobs</span>
+                <span className="text-paper">Supabase public.available_jobs</span>
               </div>
               <div>
                 <span className="text-slate-500 block">CRAWLER MODULE:</span>
-                <span className="text-indigo-400">job_crawlers.py</span>
+                <span className="text-indigo-400">crawler/main.py</span>
               </div>
             </div>
           </div>
@@ -156,15 +166,9 @@ export default function CrawlerConsole() {
             {logs.map((log, index) => (
               <div
                 key={index}
-                className={`leading-relaxed pl-2 border-l ${
-                  log.startsWith("[SUCCESS]")
-                    ? "border-[#3ddc97] text-[#3ddc97]"
-                    : log.startsWith("[SYSTEM]")
-                      ? "border-indigo-500 text-indigo-400"
-                      : "border-slate-800"
-                }`}
+                className={`leading-relaxed pl-2 border-l ${getLogStyle(log)}`}
               >
-                {log}
+                {log || ""}
               </div>
             ))}
             {isSweeping && (
