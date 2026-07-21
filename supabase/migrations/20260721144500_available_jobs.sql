@@ -1,4 +1,5 @@
--- SQL Script: Create available_jobs & linkedin_jobs tables with RLS & notify PostgREST schema cache
+-- Migration: 20260721144500_available_jobs.sql
+-- Description: Create available_jobs and linkedin_jobs tables for Hirenetic
 
 CREATE TABLE IF NOT EXISTS public.available_jobs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -31,7 +32,7 @@ CREATE POLICY "Allow service role full access on available_jobs"
 
 GRANT ALL ON TABLE public.available_jobs TO postgres, authenticated, anon, service_role;
 
--- Also create linkedin_jobs table
+-- Also create linkedin_jobs table for backward compatibility
 CREATE TABLE IF NOT EXISTS public.linkedin_jobs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   job_title TEXT NOT NULL,
