@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { execSync } from "child_process";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { env } from "@/lib/env";
 
@@ -23,9 +24,8 @@ export async function POST() {
     let ref = "main";
     if (process.env.NODE_ENV === "development") {
       try {
-        const { execSync } = require("child_process");
         ref = execSync("git branch --show-current").toString().trim() || "main";
-      } catch (e) {
+      } catch {
         // Fallback to "main"
       }
     } else {
